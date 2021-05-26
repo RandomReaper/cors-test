@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+</head>
+<body>
+  <div id='data'>
+  </div>
+</body>
+<script>
+const username="admin"
+const password="toto"
+const url = "https://iottest.hevs.ch/api/v1/account";
+fetch(url,   {headers: new Headers({
+    'Authorization': 'Basic ' + btoa(username + ":" + password),
+    'Content-Type': 'application/json'
+  })})
+  .then(response => response.text())
+.then(html => {
+  // console.log(html);
+  document.getElementById('data').innerHTML = '<pre>'+html+'</pre>';
+})
+.catch((err) => console.log("Can’t access " + url + " response. Blocked by browser?" + err));
+</script>
+</html>

@@ -5,22 +5,47 @@
   <meta content="utf-8" http-equiv="encoding">
 </head>
 <body>
+<table>
+<tr>
+  <td>url</td><td><input type="string" name="url" id="input_url" value="https://domos.oiken.ch/api/v1/account"/ size=100></td>
+</tr>
+<tr>
+  <td>user</td><td><input type="string" name="user" id="input_user" value="admin"/></td>
+</tr>
+<tr>
+  <td>password</td><td><input type="password" name="password" id="input_password" /></td>
+</tr>
+<tr><td>
+  <button type="button" onclick="testCORS()">sumbit</button>
+</tr></td>
+</table>
+  <div id='status'>
+  </div>
   <div id='data'>
   </div>
 </body>
 <script>
-const username="admin"
-const password="toto"
-const url = "https://iottest.hevs.ch/api/v1/account";
-fetch(url,   {headers: new Headers({
-    'Authorization': 'Basic ' + btoa(username + ":" + password),
-    'Content-Type': 'application/json'
-  })})
-  .then(response => response.text())
-.then(html => {
-  // console.log(html);
-  document.getElementById('data').innerHTML = '<pre>'+html+'</pre>';
-})
-.catch((err) => console.log("Can’t access " + url + " response. Blocked by browser?" + err));
+function testCORS() {
+   let url = document.getElementById("input_url").value;
+   let username= document.getElementById("input_user").value;
+   let password= document.getElementById("input_password").value;
+
+   fetch(url,   {headers: new Headers({
+       'Authorization': 'Basic ' + btoa(username + ":" + password),
+       'Content-Type': 'application/json'
+     })})
+   .then(response => {
+     console.log("here1")
+     console.log("response.status: "+response.status)
+     document.getElementById('status').innerHTML = '<pre>'+response.status+'</pre>';
+     response.text().then(function(html){
+       document.getElementById('data').innerHTML = '<pre>'+html+'</pre>'
+     }
+     )
+   })
+   .catch((err) => console.log("Can’t access " + url + " response. Blocked by browser?" + err));
+
+   return
+ }
 </script>
 </html>
